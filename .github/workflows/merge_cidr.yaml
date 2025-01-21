@@ -1,0 +1,52 @@
+name: download_proxies
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "master" branch
+  # push:
+    # branches: [ "master" ]
+  # pull_request:
+    # branches: [ "master" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+  schedule:
+    - cron: '0 9,21 * * *'
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Setup Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    # - name: cache
+      # uses: actions/cache@v3
+      # with:
+        # path: ~/.cache/pip
+        # key: ${{ runner.os }}-pip-${{ hashFiles('**/run_in_Actions/requirements.txt') }}
+        # restore-keys: |
+          # ${{ runner.os }}-pip-
+
+    - name: Timezone
+      run: sudo timedatectl set-timezone 'Asia/Shanghai'
+  merge: 
+    # sign netease
+    - name: merge 
+      # run: curl https://raw.githubusercontent.com/mayaxcn/china-ip-list/refs/heads/master/chnroute.txt | python merge_ipcidr.py
+      run: curl https://raw.githubusercontent.com/DustinWin/ruleset_geodata/refs/heads/mihomo-ruleset/cnip.list | python merge_ipcidr.py
+
+    - name: commit
+      run: |
+        git config --local user.email "actions@github.com"
+        git config --local user.name "GitHub Actions"
+        git pull origin main
+        git add clash
+        git commit -m "$(date '+%Y-%m-%d %H:%M:%S') update"
+    - name: update
+      uses: ad-m/github-push-action@master
+      with:
+        branch: main
