@@ -1,4 +1,4 @@
-name: download_proxies
+name: merge_cidr
 
 # Controls when the workflow will run
 on:
@@ -43,7 +43,7 @@ jobs:
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
         git pull origin main
-        git add clash
+        git add .
         git commit -m "$(date '+%Y-%m-%d %H:%M:%S') update"
     - name: Update
       uses: ad-m/github-push-action@master
