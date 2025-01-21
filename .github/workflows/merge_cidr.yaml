@@ -35,18 +35,18 @@ jobs:
       run: sudo timedatectl set-timezone 'Asia/Shanghai'
   merge: 
     # sign netease
-    - name: merge 
+    - name: Merge 
       # run: curl https://raw.githubusercontent.com/mayaxcn/china-ip-list/refs/heads/master/chnroute.txt | python merge_ipcidr.py
       run: curl https://raw.githubusercontent.com/DustinWin/ruleset_geodata/refs/heads/mihomo-ruleset/cnip.list | python merge_ipcidr.py
 
-    - name: commit
+    - name: Commit
       run: |
         git config --local user.email "actions@github.com"
         git config --local user.name "GitHub Actions"
         git pull origin main
         git add clash
         git commit -m "$(date '+%Y-%m-%d %H:%M:%S') update"
-    - name: update
+    - name: Update
       uses: ad-m/github-push-action@master
       with:
         branch: main
