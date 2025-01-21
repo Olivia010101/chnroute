@@ -33,8 +33,7 @@ jobs:
 
     - name: Timezone
       run: sudo timedatectl set-timezone 'Asia/Shanghai'
-  merge:
-    # sign netease
+
     - name: Merge
       # run: curl https://raw.githubusercontent.com/mayaxcn/china-ip-list/refs/heads/master/chnroute.txt | python merge_ipcidr.py
       run: curl https://raw.githubusercontent.com/DustinWin/ruleset_geodata/refs/heads/mihomo-ruleset/cnip.list | python merge_ipcidr.py
